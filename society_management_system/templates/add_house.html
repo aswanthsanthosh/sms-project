@@ -1,0 +1,29 @@
+{% extends 'seller_home.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card" style="width: 50%; margin: auto;">
+    <div class="card-body">
+      <p style="visibility: hidden;">
+        Basic form layout
+      </p>
+      <p style="visibility: hidden;">
+        Basic form layout
+      </p>
+      <p style="visibility: hidden;">
+        Basic form layout
+      </p>
+      <h4 class="card-title">Add House Here.</h4>
+
+      <form class="forms-sample" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ house_form|crispy }}
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        <button class="btn btn-light">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  
+  {% endblock %}
