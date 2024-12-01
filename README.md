@@ -2,7 +2,7 @@
 __Setup__
 __1. Clone the repository__
    ```
-   git clone https://github.com/aswanthsanthosh/classroom-management.git
+   git clone https://github.com/aswanthsanthosh/sms-project.git
    cd classroom-management
    ```
 __2. Activate Virtual Environment__
