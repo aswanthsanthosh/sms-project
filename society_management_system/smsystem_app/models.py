@@ -43,6 +43,10 @@ class Seller(models.Model):
     address = models.TextField()
     phone_number = models.CharField(max_length=20)
     email = models.EmailField(null=True, blank=True)
+    location = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Buyer(models.Model):
     user =  models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='buyeruser',null=True,blank=True)
@@ -50,6 +54,9 @@ class Buyer(models.Model):
     address = models.TextField()
     phone_number = models.CharField(max_length=20)
     email = models.EmailField(null=True, blank=True)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Society(models.Model):
     name = models.CharField(max_length=100)
@@ -87,5 +94,52 @@ class HouseDetails(models.Model):
     )
     location = models.CharField(max_length=100)
     address = models.TextField()
+    seller = models.ForeignKey(
+        Seller, 
+        related_name='house',
+        on_delete=models.CASCADE,
+        null=True, blank=True
+    ) 
+
+    def __str__(self) -> str:
+        return self.house_name
+    
+STATUS = (('approved', 'approved'),
+                ('rejected', 'rejected'),
+                ('pending', 'pending'))
+
+class BookingRequest(models.Model):
+    seller = models.ForeignKey(
+        Seller, on_delete=models.CASCADE,
+    )
+    buyer = models.ForeignKey(
+        Buyer, on_delete=models.CASCADE,
+    )
+    house = models.ForeignKey(
+        HouseDetails, on_delete=models.CASCADE,
+    )
+    status = models.CharField(
+        choices=STATUS,
+        max_length=20,
+        null=True, blank=True,
+        default='pending'
+    )
 
 
+class Message(models.Model):
+    sender = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE,
+        related_name='message_sender'
+    )
+    reciever = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE,
+        related_name='message_reciever'
+    )
+    sender_name = models.CharField(
+        max_length=100, null=True, blank=True
+    )
+    reciever_name = models.CharField(
+        max_length=100, null=True, blank=True
+    )
+    message_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)

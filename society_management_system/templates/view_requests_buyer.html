@@ -1,0 +1,86 @@
+{% extends 'buyer_home.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<p style="visibility: hidden;">
+  Basic form layout
+</p>
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">My Request List</h4>
+      {% comment %} <p class="card-description">
+        Add class <code>.table-striped</code>
+      </p> {% endcomment %}
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>
+                Sl No
+              </th>
+              <th>
+                House
+              </th>
+              <th>
+                Seller
+              </th>
+              <th>
+                Seller Contact
+              </th>
+              <th>
+                Sell/Rent
+              </th>
+              <th>
+                Location
+              </th>
+              <th>
+                Address
+              </th>
+              <th>
+                status
+              </th>
+              <th>
+                
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in booking %}
+            <tr>
+              <td>
+                {{ forloop.counter }}
+              </td>
+              <td>
+                {{ i.house }}
+              </td>
+              <td>
+                {{ i.seller }}
+              </td>
+              <td>
+                {{ i.seller.phone_number }}
+              </td>
+              <td>
+                {{ i.house.selling_type }}
+              </td>
+              <td>
+                {{ i.house.location }}
+              </td>
+              <td>
+                {{ i.house.address }}
+              </td>
+              <td>
+                {{ i.status }}
+              </td>
+              <td>
+                <button type="button" class="btn btn-light btn-rounded btn-fw"><a href="{% url 'view_messages_for_buyer' i.seller.id %}" >Chat</a></button>
+              </td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  {% endblock %}

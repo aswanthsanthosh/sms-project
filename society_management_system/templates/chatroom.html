@@ -1,0 +1,49 @@
+{% extends 'buyer_home.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<p style="visibility: hidden;">
+    Basic form layout
+</p>
+<div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Messages</h4>
+      {% comment %} <p class="card-description">Add class <code>.list-ticked</code> to <code>&lt;ul&gt;</code></p> {% endcomment %}
+      <ul class="list-ticked">
+        {% for message in messages %}
+        <li><strong>{{ message.sender_name }}</strong>: {{ message.message_text }} <small>({{ message.created_at }})</small></li>
+        {% empty %}
+            <p>No messages yet!</p>
+        {% endfor %}
+      </ul>
+      <form class="forms-sample" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ message_form|crispy }}
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        <button class="btn btn-light">Cancel</button>
+      </form>
+    </div>
+  </div>
+  {% endblock %}
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+</head>
+<body>
+    <h1>Chat Room</h1>
+    <div id="chat-box">
+        {% for message in messages %}
+            <p><strong>{{ message.sender_name }}</strong>: {{ message.message_text }} <small>({{ message.timestamp }})</small></p>
+        {% empty %}
+            <p>No messages yet!</p>
+        {% endfor %}
+    </div>
+    
+</body>
+</html> {% endcomment %}

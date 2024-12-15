@@ -32,8 +32,8 @@
       <!-- partial:partials/_navbar.html -->
       <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-          <a class="navbar-brand brand-logo" href={% url "admin_home" %}><img src={% static "images/logo.svg" %} alt="logo"/></a>
-          <a class="navbar-brand brand-logo-mini" href="{% url "admin_home" %}"><img src={% static "images/logo-mini.svg" %} alt="logo"/></a>
+          <a class="navbar-brand brand-logo" href={% url "buyer_home" %}><img src={% static "images/logo.svg" %} alt="logo"/></a>
+          <a class="navbar-brand brand-logo-mini" href="{% url "buyer_home" %}"><img src={% static "images/logo-mini.svg" %} alt="logo"/></a>
           <button class="navbar-toggler navbar-toggler align-self-center d-none d-lg-flex" type="button" data-toggle="minimize">
             <span class="typcn typcn-th-menu"></span>
           </button>
@@ -237,7 +237,7 @@
             <p class="sidebar-menu-title">Dash menu</p>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url "admin_home" %}">
+            <a class="nav-link" href="{% url "buyer_home" %}">
               <i class="typcn typcn-device-desktop menu-icon"></i>
               <span class="menu-title">Dashboard <span class="badge badge-primary ml-3">New</span></span>
             </a>
@@ -274,19 +274,43 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="typcn typcn-briefcase menu-icon"></i>
+            <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+              <i class="typcn typcn-compass menu-icon"></i>
               <span class="menu-title">Chats</span>
-              <i class="typcn typcn-chevron-right menu-arrow"></i>
+              <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div class="collapse" id="icons">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">View List</a></li>
-                {% comment %} <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li> {% endcomment %}
+                <li class="nav-item"> <a class="nav-link" href={% url "view_chat_room_for_buyer" %}>View</a></li>
               </ul>
             </div>
           </li>
+
+          {% comment %} <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+              <i class="typcn typcn-th-small-outline menu-icon"></i>
+              <span class="menu-title">Complaints</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="tables">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">View</a></li>
+              </ul>
+            </div>
+          </li> {% endcomment %}
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#error" aria-expanded="false" aria-controls="error">
+              <i class="typcn typcn-globe-outline menu-icon"></i>
+              <span class="menu-title">My Bookings</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="error">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href={% url "view_booking_request_buyer" %}> View </a></li>
+              </ul>
+            </div>
+          </li>
+
           {% comment %} <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
               <i class="typcn typcn-film menu-icon"></i>

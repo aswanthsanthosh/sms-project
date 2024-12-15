@@ -1,0 +1,86 @@
+{% extends 'buyer_home.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<p style="visibility: hidden;">
+  Basic form layout
+</p>
+<div class="col-lg-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Houses List</h4>
+      {% comment %} <p class="card-description">
+        Add class <code>.table-striped</code>
+      </p> {% endcomment %}
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>
+                Sl No
+              </th>
+              <th>
+                Name
+              </th>
+              <th>
+                House Number
+              </th>
+              <th>
+                Society
+              </th>
+              <th>
+                Sell/Rent
+              </th>
+              <th>
+                House type
+              </th>
+              <th>
+                Location
+              </th>
+              <th>
+                Address
+              </th>
+              <th>
+                
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in houses %}
+            <tr>
+              <td>
+                {{ forloop.counter }}
+              </td>
+              <td>
+                {{ i.house_name }}
+              </td>
+              <td>
+                {{ i.house_number }}
+              </td>
+              <td>
+                {{ i.society }}
+              </td>
+              <td>
+                {{ i.selling_type }}
+              </td>
+              <td>
+                {{ i.house_type }}
+              </td>
+              <td>
+                {{ i.location }}
+              </td>
+              <td>
+                {{ i.address }}
+              </td>
+              <td>
+                <button type="button" class="btn btn-light btn-rounded btn-fw"><a href="{% url 'book_a_house' i.id %}" >Book Now!</a></button>
+              </td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  {% endblock %}
