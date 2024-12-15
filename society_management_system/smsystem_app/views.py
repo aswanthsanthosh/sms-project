@@ -130,7 +130,7 @@ def add_house(request):
     return render(request, 'add_house.html', {'house_form': form})
     
 def view_house(request):
-    houses = HouseDetails.objects.all()
+    houses = HouseDetails.objects.filter(seller__user=request.user)
     return render(request, 'view_houses.html', {'houses': houses})
 
 def view_houses_for_buyer(request, id):
