@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .models import CustomUser, Seller, Buyer, HouseDetails, Society
+from .models import CustomUser, Seller, Buyer, HouseDetails, Society, BookingRequest, Message
 
 
 
@@ -30,3 +30,8 @@ class SocietyForm(forms.ModelForm):
     class Meta:
         model = Society
         fields = "__all__"
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ["message_text"]

@@ -288,19 +288,19 @@
             </a>
             <div class="collapse" id="form-elements">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">View List</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "view_chat_room_for_seller" %}">View List</a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
               <i class="typcn typcn-th-small-outline menu-icon"></i>
-              <span class="menu-title">Complaints</span>
+              <span class="menu-title">Bookings</span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="tables">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">View</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url "view_booking_request_seller" %}">View</a></li>
               </ul>
             </div>
           </li>
@@ -342,12 +342,12 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item">
+           <li class="nav-item">
             <a class="nav-link" href="pages/documentation/documentation.html">
               <i class="typcn typcn-document-text menu-icon"></i>
               <span class="menu-title">Documentation</span>
             </a>
-          </li> {% endcomment %}
+          </li> 
         </ul>
         {% comment %} <ul class="sidebar-legend">
           <li>

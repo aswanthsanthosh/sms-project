@@ -21,6 +21,7 @@
               <th>
                 Number of Houses
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -34,6 +35,9 @@
               </td>
               <td>
                 {{ i.number_of_houses }}
+              </td>
+              <td>
+                <button type="button" class="btn btn-light btn-rounded btn-fw" href="{% url 'view_houses_for_buyer' i.id %}"><a href="{% url 'view_houses_for_buyer' i.id %}" >View Houses</a></button>
               </td>
             </tr>
             {% endfor %}

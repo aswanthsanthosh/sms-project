@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SellerForm, BuyerForm, LoginForm, HouseDetailsForm, SocietyForm
-from .models import Society,Buyer, Seller, HouseDetails
+from .forms import SellerForm, BuyerForm, LoginForm, HouseDetailsForm, SocietyForm, MessageForm
+from .models import Society,Buyer, Seller, HouseDetails, BookingRequest, Message, CustomUser
+from django.urls import reverse
+from django.db.models import Q
 
 # Create your views here.
 
@@ -130,3 +132,140 @@ def add_house(request):
 def view_house(request):
     houses = HouseDetails.objects.all()
     return render(request, 'view_houses.html', {'houses': houses})
+
+def view_houses_for_buyer(request, id):
+    society = Society.objects.get(id=id)
+    houses = HouseDetails.objects.filter(society=society)
+    return render(request, 'view_houses_for_buyer.html', {'houses': houses})
+
+
+def book_a_house(request, id):
+    print(request.user)
+    print(Buyer.objects.all())
+    buyer = Buyer.objects.get(user=request.user)
+    house = HouseDetails.objects.get(id=id)
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    if not BookingRequest.objects.filter(
+            house=house, buyer=buyer).exists():
+        BookingRequest.objects.create(
+            house=house,
+            buyer=buyer,
+            seller=house.seller
+        )
+    return redirect(reverse('view_houses_for_buyer', kwargs={'id': house.society.id}))
+
+def view_booking_request_buyer(request):
+    requests = BookingRequest.objects.filter(
+        buyer__user=request.user
+    )
+    return render(request, 'view_requests_buyer.html', {'booking': requests})
+
+def view_chat_room_for_buyer(request):
+    msgs = Message.objects.filter(Q(sender=request.user)|
+                                  Q(reciever=request.user))
+    msg__senders = set(
+        list(msgs.values_list('sender__id', flat=True))+
+        list(msgs.values_list('reciever__id', flat=True))
+        )
+    users = Seller.objects.filter(user__in=msg__senders)
+    return render(request, 'chatroom_lay_for_buyer.html', {'messages': users} )
+
+def view_messages_for_buyer(request, id):
+    message_form = MessageForm()
+    if request.method == 'POST':
+        reciever = CustomUser.objects.get(id=id)
+        snd_name = Buyer.objects.get(user=request.user).name
+        rec_name = Seller.objects.get(user=reciever).name
+        message_form = MessageForm(request.POST)
+        message = message_form.save(commit=False)
+        message.sender = request.user
+        message.reciever = reciever
+        message.sender_name = snd_name
+        message.reciever_name = rec_name
+        message.save()
+        return redirect(reverse('view_messages_for_buyer', kwargs={'id': id}))
+    messages = Message.objects.filter(
+        (Q(sender__id=id) and Q(reciever=request.user))|
+        (Q(reciever__id=id) and Q(sender=request.user))).order_by("-created_at")
+    return render(request, 'chatroom.html', {'messages': messages, 'message_form': message_form} )
+
+
+
+
+
+def view_booking_request_seller(request):
+    requests = BookingRequest.objects.filter(
+        seller__user=request.user
+    )
+    return render(request, 'view_requests_seller.html', {'booking': requests})
+
+def view_chat_room_for_seller(request):
+    msgs = Message.objects.filter(Q(sender=request.user)|
+                                  Q(reciever=request.user))
+    msg__senders = set(
+        list(msgs.values_list('sender__id', flat=True))+
+        list(msgs.values_list('reciever__id', flat=True))
+        )
+    users = Buyer.objects.filter(user__in=msg__senders)
+    return render(request, 'chatroom_lay_for_seller.html', {'messages': users} )
+
+def view_messages_for_seller(request, id):
+    message_form = MessageForm()
+    if request.method == 'POST':
+        reciever = CustomUser.objects.get(id=id)
+        snd_name = Seller.objects.get(user=request.user).name
+        rec_name = Buyer.objects.get(user=reciever).name
+        message_form = MessageForm(request.POST)
+        message = message_form.save(commit=False)
+        message.sender = request.user
+        message.reciever = reciever
+        message.sender_name = snd_name
+        message.reciever_name = rec_name
+        message.save()
+        return redirect(reverse('view_messages_for_seller', kwargs={'id': id}))
+    messages = Message.objects.filter(
+        (Q(sender__id=id) and Q(reciever=request.user))|
+        (Q(reciever__id=id) and Q(sender=request.user))).order_by("-created_at")
+    return render(request, 'chatroom_seller.html', {'messages': messages, 'message_form': message_form} )
+
+def handle_request_seller_approve(request, id):
+    booking = BookingRequest.objects.get(
+        id=id
+    )
+    booking.status = 'approved'
+    booking.save()
+    return redirect('view_booking_request_seller')
+
+def handle_request_seller_reject(request, id):
+    booking = BookingRequest.objects.get(
+        id=id
+    )
+    booking.status = 'rejected'
+    booking.save()
+    return redirect('view_booking_request_seller')
+
+
+def view_houses_for_admin(request, id):
+    society = Society.objects.get(id=id)
+    houses = HouseDetails.objects.filter(society=society)
+    return render(request, 'view_houses_for_admin.html', {'houses': houses})
+
+def view_booking_request_admin(request):
+    requests = BookingRequest.objects.all()
+    return render(request, 'view_requests_admin.html', {'booking': requests})
+
+def handle_request_admin_approve(request, id):
+    booking = BookingRequest.objects.get(
+        id=id
+    )
+    booking.status = 'approved'
+    booking.save()
+    return redirect('view_booking_request_admin')
+
+def handle_request_admin_reject(request, id):
+    booking = BookingRequest.objects.get(
+        id=id
+    )
+    booking.status = 'rejected'
+    booking.save()
+    return redirect('view_booking_request_admin')

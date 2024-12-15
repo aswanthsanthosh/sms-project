@@ -37,6 +37,9 @@
               <td>
                 {{ i.number_of_houses }}
               </td>
+              <td>
+                <button type="button" class="btn btn-light btn-rounded btn-fw" href="{% url 'view_houses_for_admin' i.id %}"><a href="{% url 'view_houses_for_admin' i.id %}" >View Houses</a></button>
+              </td>
             </tr>
             {% endfor %}
           </tbody>
