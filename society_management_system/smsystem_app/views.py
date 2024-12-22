@@ -185,8 +185,13 @@ def view_messages_for_buyer(request, id):
         message.save()
         return redirect(reverse('view_messages_for_buyer', kwargs={'id': id}))
     messages = Message.objects.filter(
-        (Q(sender__id=id) and Q(reciever=request.user))|
-        (Q(reciever__id=id) and Q(sender=request.user))).order_by("-created_at")
+        (Q(sender__id=id, reciever=request.user.id) |
+     Q(reciever=id, sender__id=request.user.id))
+        ).order_by("-created_at")
+    print("id", id)
+    print(request.user.id)
+    print("user", request.user)
+    print(messages.values_list('sender', 'reciever'))
     return render(request, 'chatroom.html', {'messages': messages, 'message_form': message_form} )
 
 
@@ -224,8 +229,9 @@ def view_messages_for_seller(request, id):
         message.save()
         return redirect(reverse('view_messages_for_seller', kwargs={'id': id}))
     messages = Message.objects.filter(
-        (Q(sender__id=id) and Q(reciever=request.user))|
-        (Q(reciever__id=id) and Q(sender=request.user))).order_by("-created_at")
+        (Q(sender__id=id, reciever=request.user.id) |
+     Q(reciever=id, sender__id=request.user.id))
+        ).order_by("-created_at")
     return render(request, 'chatroom_seller.html', {'messages': messages, 'message_form': message_form} )
 
 def handle_request_seller_approve(request, id):

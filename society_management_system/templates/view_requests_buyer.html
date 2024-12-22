@@ -72,7 +72,7 @@
                 {{ i.status }}
               </td>
               <td>
-                <button type="button" class="btn btn-light btn-rounded btn-fw"><a href="{% url 'view_messages_for_buyer' i.seller.id %}" >Chat</a></button>
+                <button type="button" class="btn btn-light btn-rounded btn-fw"><a href="{% url 'view_messages_for_buyer' i.seller.user.id %}" >Chat</a></button>
               </td>
               {% endfor %}
             </tr>
