@@ -60,7 +60,7 @@
                 {{ i.location }}
               </td>
               <td>
-                <button type="button" class="btn btn-light btn-rounded btn-fw"><a href="{% url 'view_messages_for_buyer' i.id %}" >Chat</a></button>
+                <button type="button" class="btn btn-light btn-rounded btn-fw"><a href="{% url 'view_messages_for_buyer' i.user.id %}" >Chat</a></button>
               </td>
             </tr>
             {% endfor %}
